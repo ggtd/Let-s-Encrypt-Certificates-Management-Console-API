@@ -23,9 +23,11 @@ The application allows you to manage SSL Certificates issued by Let’s Encrypt 
 
 ##Installation##
 The application was developed and tested on Debian Linux.
-Clone the repository, run "app.py".
-On the first run, the application will create the required SQLite database file.
+- Clone the repository.
+- Edit the ALLOW_IPs=["x.x.x.x"] in file app.py
+- Run "app.py".
 
+On the first run, the application will create the required SQLite database file.
 Navigate your browser to: http://x.x.x.x:9181/ to access the GUI.
 
 ##Documentation##

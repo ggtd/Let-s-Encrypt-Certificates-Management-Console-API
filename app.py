@@ -20,7 +20,7 @@ import shlex
 
 #-------------------CONFIGURATION-----------------------------
 
-ALLOW_IPs=["127.0.0.1","10.10.0.1"] # List of IP addresses that can access the API and GUI.
+ALLOW_IPs=["127.0.0.1","10.10.1.1"] # List of IP addresses that can access the API and GUI.
 CONF_REISSUE_DAYS_BEFORE=83 # reisue certificates after XX days. (XX days before 90 day expiration date)
 CONF_PROCESSING_LOOP_TIME=10 # Run the bacground processing thread each X seconds.
 CONF_RENEW_CERTIFICATE_DAYS_BEFORE=7 # Number of days before the processing hread will try to re_issue certifcates.
@@ -101,6 +101,8 @@ class lesslserver:
 	check_ip()
 	template = env.get_template('docs.html')
 	return template.render()
+
+
 
 
     @http.expose

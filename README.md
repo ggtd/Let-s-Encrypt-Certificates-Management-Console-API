@@ -32,7 +32,7 @@ Navigate your browser to: http://x.x.x.x:9181/ to access the GUI.
 
 ##Domain Validation(Autentification) via Webroot##
 To be able to issue certificates you shoud run an Apache server with empty webroot. (default on Debian)
-Then redirect all traffic for location /.well-known/acme-challenge to the same machine where you host the Management application.
+Then redirect all request from http://domain-to-issue.tld/.well-known/acme-challenge to the same machine where you host the Management application.
 
 ###NGINX Config example###
 	location /.well-known/acme-challenge{

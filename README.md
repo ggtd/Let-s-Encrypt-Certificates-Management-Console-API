@@ -8,6 +8,7 @@ The application allows you to manage SSL Certificates issued by Let’s Encrypt 
 - python
 - CherryPy
 - Some other Python libs
+- openssl installed
 
 ##Basic features##
 - WEB GUI for overview and easy management

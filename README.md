@@ -30,11 +30,6 @@ The application was developed and tested on Debian Linux.
 On the first run, the application will create the required SQLite database file.
 Navigate your browser to: http://x.x.x.x:9181/ to access the GUI.
 
-##Documentation##
-The documentation for API calls are included in the application itself. Look for the “API Documentation” tab in main menu.
-
-Have fun!
-
 ##Domain Validation(Autentification) via Webroot##
 To be able to issue certificates you shoud run an Apache server with empty webroot. (default on Debian)
 Then redirect all traffic for location /.well-known/acme-challenge to the same machine where you host the Management application.
@@ -46,6 +41,12 @@ Then redirect all traffic for location /.well-known/acme-challenge to the same m
 	    expires off;
 	    allow all;
 	    }
+
+
+##Documentation##
+The documentation for API calls are included in the application itself. Look for the “API Documentation” tab in main menu.
+
+Have fun!
 
 
 ##Comercial Support and Advanced features##

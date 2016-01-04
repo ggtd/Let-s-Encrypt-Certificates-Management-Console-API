@@ -30,7 +30,7 @@ The application was developed and tested on Debian Linux.
 On the first run, the application will create the required SQLite database file.
 Navigate your browser to: http://x.x.x.x:9181/ to access the GUI.
 
-##Domain Validation(Autentification) via Webroot##
+##Domain Validation (Authentication) via Webroot##
 To be able to issue certificates you shoud run an Apache server with empty webroot. (default on Debian)
 Then redirect all request from http://domain-to-issue.tld/.well-known/acme-challenge to the same machine where you host the Management application.
 

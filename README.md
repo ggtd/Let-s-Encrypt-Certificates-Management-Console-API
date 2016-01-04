@@ -16,12 +16,16 @@ The application allows you to manage SSL Certificates issued by Let’s Encrypt 
 - Logging of debug responses from ACME Client
 - Limiting Access for specific IP addressed
 
+
 ##Installation##
 The application was developed and tested on Debian Linux.
 Clone the repository, run "app.py".
 On the first run, the application will create the required SQLite database file.
 
 Navigate your browser to: http://x.x.x.x:9181/ to access the GUI.
+
+##Documentation##
+The documentation for API calls are included in the application itself. Look for the “API Documentation” tab in main menu.
 
 Have fun!
 

@@ -1,0 +1,25 @@
+{% include 'header.html' %}
+
+
+<table>
+<tr>
+    <th>RootDomain</th>
+    <th>Cert.Hostname(CN)</th>
+    <th>Status</th>
+    <th>Valid To</th>
+    <th>Operations</th>
+</tr>
+{%for x in domain_list:%}
+<tr>
+    <td>{{x.rootdomain}}</td>
+    <td>{{x.hostname}}</td>
+    <td>{{x.status}}</td>
+    <td>{{x.validto}}</td>
+    <td>[<a href='/gui_cert_manage?hostname={{x.hostname}}'>Manage</a>] [<a href='/gui_log?hostname={{x.hostname}}'>Log</a>]</td>
+</tr>
+{% endfor %}
+
+</table>
+
+
+{% include 'footer.html' %}

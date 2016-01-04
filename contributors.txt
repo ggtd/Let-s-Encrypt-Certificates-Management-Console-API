@@ -1,0 +1,10 @@
+Tomas Dobrotka
+www.dobrotka.sk
+tomas@dobrotka.sk
+
+(c) Genia Group, ltd.
+HOME PAGE: http://genia.sk/lets-encrypt-certificates-management-console-api/
+
+Please Contact me if you interested in implementation, customization or comercial support.
+Anyway feel free to use this application!
+

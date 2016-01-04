@@ -1,0 +1,301 @@
+{% include 'header.html' %}
+
+<h2>API Server Documentation</h2>
+<hr>
+NOTE 1: ALL DOMAIN NAMES INPUT ARE EXPECTED TO BE VALID, AND ARE NOT CHECKED!<BR>
+NOTE 2: ALL DOMAIN NAMES ARE CONVERTED INTO LOWERCASE.
+<hr>
+
+
+
+<h1>Certificate Status Codes</h1>
+The database backend saves custom status for each certificate. The status codes are:
+<br>
+<br><b>created</b> - The certificate is created and considered as valid.
+<br><b>error:unknow</b> - Error occurred while issuing the certifiate! CLI client not responded or too many request for the same certificate!
+<br><b>error:connection</b> - Error occurred while issuing the certifiate! DNS are broken or domain is invalid!
+<br><b>error:unauthorized</b> - Error occurred while issuing the certifiate! Authorization via Webroot failed.
+<br><b>to_create</b> - The certificate is going to be issued.
+<br><b>to_re_create</b> - The certificate is going to be re-issued.
+<br><b>to_delete</b> - The certificate is going to be removed.
+<br><b>delete</b> - The certificate is deleted, will be removed from DB.
+<br><br>
+<b><i>Note:</i></b>For practical use, you can only check for the status "created" and "error:*". Anything else is not important for you or your clients.
+<hr>
+
+
+
+
+<h1>Create New Certificate for hostname</h1>
+Thill call Will create a new certificate that will have the CN/Hostname of two combined values [subdomain+example.com]<br>
+From this point the certificate/CN will be called and used as "hostname" in rest of the application and API calls.<br>
+The certificate will be created by the daemon in background.
+<div class='note'><b><font size=2>Why is the parameter "root_domain" and "subdomain" good to use?</b><br>If you consider to use this application in a shared hosting enviroment. You probably identify your clients services by domain name. You will probably create more certficates for one domain(client), so they will by distinguished by sub-domain. For example the hostnames/CN for <b>www.example.com</b> and <b>shop.example.com</b> can be considered as two issued certificate for the same hosting client. This way you can later search for similar certficicates of the same client/domain, and delete all of them if needed.</font></div>
+<br><br>
+
+<h3>HTTP API Request</h3>
+<table>
+<tr>
+    <th>REQUEST</th>
+    <th>URL REQUEST EXAMPLE</th>
+</tr>
+<tr>
+    <td>GET</td>
+    <td><font color='blue'>/api_cert_create?root_domain=example.com&subdomain=www </font><br></td>
+</tr>
+</table>
+<h3>Imput Parameters</h3>
+<table>
+<tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+</tr>
+<tr>
+    <td>root_domain</td>
+    <td>yes, required</td>
+    <td>Name of the domain (SLD+TLD) for which the certificate is going to be generated.</td>
+</tr>
+<tr>
+    <td>subdomain</td>
+    <td>no, but optional</td>
+    <td>The Subdomain or HOST for which the certificate is going to be generated. (Like: www, eshop,...)</td>
+</tr>
+</table>
+
+
+<h3>Response Content</h3>
+<table>
+<tr>
+    <th>Value</th>
+    <th>Type</th>
+    <th>Description</th>
+</tr>
+<tr>
+    <td>status</td>
+    <td>string</td>
+    <td><b>create_job_scheduled</b> - Means everything is OK. Certificate will be created.<br>
+<br><b>already_exist</b> - Means the certficate already exist in database.
+</td>
+</tr>
+<tr>
+    <td>hostname</td>
+    <td>string</td>
+    <td>Full name of the host/CN of the certifcate.(SLD+TLD) you requested to create.
+</td>
+</tr>
+<tr>
+    <td>note</td>
+    <td>string</td>
+    <td>Human readable information about response and request. Don't use for automation, it is only to help you debug while developing.
+</td>
+</tr>
+</table>
+<hr>
+<br>
+<br>
+
+
+
+
+<h1>GET Certificate status and content</h1>
+Return JSON encoded info about Existing Certificate along with the certificate, private key and chain, if its available. The certificates, key and chain is encoded using Base64.
+<br><br>
+<table>
+<tr>
+    <th>REQUEST</th>
+    <th>URL REQUEST EXAMPLE</th>
+</tr>
+<tr>
+    <td>GET</td>
+    <td><font color='blue'>/api_cert_info?hostname=www.example.com </font><br></td>
+</tr>
+</table>
+<h3>Imput Parameters</h3>
+<table>
+<tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+</tr>
+<tr>
+    <td>hostname</td>
+    <td>yes, required</td>
+    <td>Hostname (or CN) of the certificate.</td>
+</tr>
+</table>
+
+
+<h3>Response Content</h3>
+<table>
+<tr>
+    <th>Value</th>
+    <th>Type</th>
+    <th>Description</th>
+</tr>
+<tr>
+    <td>status</td>
+    <td>string</td>
+    <td>Status of the certificate as it's currently know to the system. Certificate with status "created" are considred as fine.</td>
+</tr>
+<tr>
+    <td>human_message</td>
+    <td>string</td>
+    <td>Message that helps you with development and debuging.</td>
+</tr>
+<tr>
+    <td>cert_cert</td>
+    <td>string</td>
+    <td>Base64 encoded string containing The Certificate</td>
+</tr>
+<tr>
+    <td>cert_privkey</td>
+    <td>string</td>
+    <td>Base64 encoded string containing The private key</td>
+</tr>
+<tr>
+    <td>cert_chain</td>
+    <td>string</td>
+    <td>Base64 encoded string containing certificate chain.</td>
+</tr>
+<tr>
+    <td>cert_fullchain</td>
+    <td>string</td>
+    <td>Base64 encoded string containing Chained Certificate.</td>
+</tr>
+</table>
+<hr>
+<br>
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Pool (Look for changes)</h1>
+Will return an JSON encoded list of hostnames related to New Certificates or Certificates that have been updated. And therefore certificate files should be downloaded and deployed on Web server(s).
+To get certificates content use the method : api_cert_info
+<br><br>
+<table>
+<tr>
+    <th>REQUEST</th>
+    <th>URL REQUEST EXAMPLE</th>
+</tr>
+<tr>
+    <td>GET</td>
+    <td><font color='blue'>/api_pool?limit=10</font><br></td>
+</tr>
+</table>
+
+
+<h3>Imput Parameters</h3>
+<table>
+<tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+</tr>
+<tr>
+    <td>limit</td>
+    <td>optional</td>
+    <td>Optionaly an parameter called 'limit' can be passed, to limit the maximum numbers of domains/certifcates returned by pool request. If you don't provide any value, default limit is set to 1. This means that only one domain/certifcate will be listed by pool on each request.</td>
+</tr>
+</table>
+
+
+<h3>Response Content</h3>
+<table>
+<tr>
+    <th>Value</th>
+    <th>Type</th>
+    <th>Description</th>
+</tr>
+<tr>
+    <td>pool_data</td>
+    <td>string</td>
+    <td>Comma separated list of hostnames/certifcates that have been updated.</td>
+</tr>
+<tr>
+    <td>pool_size</td>
+    <td>integer</td>
+    <td>Integer representing the numbers of domain contained in pool_data.</td>
+</tr>
+</table>
+<hr>
+<br><br>
+
+
+
+
+
+<h1>Revoke Certificate(hostname)</h1>
+Return JSON encoded info about revoke/delete status. The Certificate(hostname/CN) will be revoked on LetsEncrypt CA side, and then deleted from application.
+<br><br>
+<table>
+<tr>
+    <th>REQUEST</th>
+    <th>URL REQUEST EXAMPLE</th>
+</tr>
+<tr>
+    <td>GET</td>
+    <td><font color='blue'>/api_cert_revoke?hostname=www.example.com</font><br></td>
+</tr>
+</table>
+<h3>Imput Parameters</h3>
+<table>
+<tr>
+    <th>Parameter</th>
+    <th>Required</th>
+    <th>Description</th>
+</tr>
+<tr>
+    <td>hostname</td>
+    <td>yes, required</td>
+    <td>Name/CN of the certificate</td>
+</tr>
+</table>
+
+
+<h3>Response Content</h3>
+<table>
+<tr>
+    <th>Value</th>
+    <th>Type</th>
+    <th>Description</th>
+</tr>
+<tr>
+    <td>status</td>
+    <td>string</td>
+    <td><b>revoke_job_scheduled</b> - This means the request was accepted. Deletion will be made on background.
+<br><br>
+<b>no_certificate</b> - Certificate with this name, is not in database!
+
+</td>
+</tr>
+</table>
+<hr>
+<br>
+<br>
+
+
+
+
+
+

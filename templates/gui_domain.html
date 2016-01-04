@@ -1,0 +1,19 @@
+{% include 'header.html' %}
+<hr>
+<br><b>Domain:</b> {{data.name}}
+<br><b>Status:</b> {{data.status}}
+<br>
+
+
+{%for x in persons:%}
+
+{{x.id}}:{{x.name}}<br>
+
+{% endfor %}
+
+
+{% if data=='m'%}
+Project MATCH!!!!
+
+{% endif %}
+{% include 'footer.html' %}

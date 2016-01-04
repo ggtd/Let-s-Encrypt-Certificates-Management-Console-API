@@ -1,0 +1,46 @@
+{% include 'header.html' %}
+
+<h2>Manage Certificate "{{cert.hostname}}"</h2>
+<hr>
+<b>Status:</b> {{cert.status}}<br>
+<b>CN:</b> {{cert.hostname}}<br>
+{%if cert.validto!=""%}
+<b>Valid To:</b> {{cert.validto}} [<a href='/gui_cert_manage?hostname={{cert.hostname}}&op=validdate'>Re-Check</a>] {%if cert.status=="created"%}[<a href='/gui_cert_manage?hostname={{cert.hostname}}&op=renew' onclick="return confirmAction('Are you sure? You want to renew the Certificate for the next 90 days?')" >Renew Certificate</a>]{%endif%}<br>
+{%endif%}
+<b>RootDomain:</b> {{cert.rootdomain}}<br>
+{%if cert.updated!=0%}<b>Last Update:</b> {{updated_date}}<br>{%endif%}
+{%if cert.status=="created"%}
+<b>Marked for pool:</b> {{cert.pooltag}} {%if cert.pooltag==0%} [<a href='/gui_cert_manage?hostname={{cert.hostname}}&pool=tag'>Push to pool</a>]<br>{%endif%}
+{%endif%}<br><br>
+<b>To Delete/Revoke this certificate click</b> <a href="/gui_cert_manage?hostname={{cert.hostname}}&op=to_delete" onclick="return confirmAction('Are you sure? This will revoke the certificate and delete it from database!')">here</a>!
+<hr>
+{% if cert_cert %}
+<h2>Certificate</h2>
+<pre>{{cert_cert}}</pre>
+{% endif %}
+
+
+{% if cert_privkey %}
+<h2>Private Key</h2>
+<pre>{{cert_privkey}}</pre>
+{% endif %}
+
+
+{% if cert_chain %}
+<h2>Chain</h2>
+<pre>{{cert_chain}}</pre>
+{% endif %}
+
+{% if cert_fullchain %}
+<h2>Full Chain</h2>
+<pre>{{cert_fullchain}}</pre>
+{% endif %}
+
+<script>
+function confirmAction(message){
+      var confirmed = confirm(message);
+      return confirmed;
+}
+</script>
+
+{% include 'footer.html' %}

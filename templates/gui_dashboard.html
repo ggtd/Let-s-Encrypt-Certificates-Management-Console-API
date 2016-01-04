@@ -1,0 +1,13 @@
+{% include('header.html') %}
+
+<h1>System Status</h1>
+<b>App Version:</b> {{app_version}}<br>
+<b>Started at:</b> {%print uptime_from%}<br>
+<b>SQLite size:</b> {%print sqlite_size.st_size%}<br>
+<b>Log records count:</b> {%print log_count%}<br>
+<b>Current maintaned Certificates:</b> {%print cert_count%}<br>
+<b>Total Certificates processed:</b> {%print cert_all%}<br>
+<hr>
+<h3>Application Log</h3>
+<b>Access Log:</b> {%print config_log_access%}<br>
+<b>Error Log:</b> {%print config_log_error%}<br>

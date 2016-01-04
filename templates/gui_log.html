@@ -1,0 +1,36 @@
+{% include 'header.html' %}
+
+
+{%if hostname=='*'%}
+
+<form action="/gui_log" method="get">
+Filter by hostname:<select size=1 name='hostname'>
+<option value='*'>*</option>
+
+{%for host in log_hosts:%}
+
+<option value='{{host.hostname}}'>{{host.hostname}}</option>
+
+{% endfor %}
+</select><input type='submit' value='Filter'>
+</form>
+<b>Last 3000 log records. Use filter to view specific or deleted certificate history:</b><br>
+
+{% else %}
+
+Filter set to: <b>{%print hostname%}</b> [<a href='/gui_log?hostname=*'>Cancel Filter</a>]
+
+{% endif %}
+
+<hr>
+<small>
+{%for log in log_data:%}
+
+{{log.timestamp}},[SRC={{log.source}}] (HOST={{log.hostname}}), {{log.message}} <br>
+
+{% endfor %}
+
+</small>
+
+
+{% include 'footer.html' %}

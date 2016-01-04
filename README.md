@@ -35,6 +35,19 @@ The documentation for API calls are included in the application itself. Look for
 
 Have fun!
 
+##Domain Validation(Autentification) via Webroot##
+To be able to issue certificates you shoud run an Apache server with empty webroot. (default on Debian)
+Then redirect all traffic for location /.well-known/acme-challenge to the same machine where you host the Management application.
+
+###NGINX Config example###
+	location /.well-known/acme-challenge{
+	    proxy_redirect off;
+	    proxy_pass http://x.x.x.x:80;
+	    expires off;
+	    allow all;
+	    }
+
+
 ##Comercial Support and Advanced features##
 We also maintain an Advanced version fork that has the following features:
 - Email notifications (Informations and Errors while issuing certificates).

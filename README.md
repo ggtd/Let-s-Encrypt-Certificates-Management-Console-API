@@ -1,6 +1,7 @@
 The application allows you to manage SSL Certificates issued by Let’s Encrypt CA. The application uses the Let’s Encrypt ACME Client and also uses SQLite database backend to store additional information about SSL certificates.
 
 ##Requirements##
+- Let's Encrypt ACME client, that is configured and able to issue certificates
 - python
 - CherryPy
 - Some other Python libs
@@ -30,3 +31,13 @@ We also maintain an Advanced version fork that has the following features:
 - Maintenance module (designed to simplify management for Webhosters).
 - Profesional support!
 - Customisations and implementation help.
+
+Contact me if you interested in Support, Customisation or Advanced Version
+
+email: tomas@dobrotka.sk
+
+web: www.dobrotka.sk
+
+Homepage of the App: http://genia.sk/lets-encrypt-certificates-management-console-api/
+
+
